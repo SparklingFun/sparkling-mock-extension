@@ -6,6 +6,7 @@ import 'semantic-ui-css/semantic.min.css'
 // Components
 import MockRecordTable from './components/mockRecordTable'
 import ExtensionSettings from './components/extensionSettings'
+import OauthPanel from  './components/oauthPanel'
 
 const panes = [
     {
@@ -18,7 +19,7 @@ const panes = [
         menuItem: (<Menu.Item key='activeMocks'>
             <Icon name='user' />
             登陆管理
-        </Menu.Item>), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>
+        </Menu.Item>), render: () => <Tab.Pane><OauthPanel /></Tab.Pane>
     },
     { menuItem: (<Menu.Item key='activeMocks'>
             <Icon name='settings' />
