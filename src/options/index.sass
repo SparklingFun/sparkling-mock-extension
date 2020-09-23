@@ -16,4 +16,19 @@
         width: 250px !important
         display: flex !important
         justify-content: center
-                    
+
+#main
+    width: 95%
+    height: 95%
+    margin: auto
+    .tab-grid
+        width: 100%
+        max-height: 100%
+        .ui.attached
+            border-top: 1px solid rgba(34,36,38,.15)
+
+@media screen and (min-width: 1080px)
+    #main
+        .tab-grid
+            .ui.grid > .tabular > .ui.label
+                display: none

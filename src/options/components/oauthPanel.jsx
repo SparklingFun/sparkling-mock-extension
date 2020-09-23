@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import NoLoginPane from './noLoginPanel'
+import LoginedPanel from './loginedPanel'
 
 const OauthPanel = () => {
     const [logined, setLogin] = useState(false)
@@ -7,9 +8,9 @@ const OauthPanel = () => {
         <div>
             {!logined ? 
                 <div className="no-login-panel">
-                    <NoLoginPane />
+                    <NoLoginPane loginSuccess={() => setLogin(true)} />
                 </div> : <div className="logined-panel">
-                    已登录
+                    <LoginedPanel logout={() => setLogin(false)} />
                 </div>
             }
         </div>
