@@ -8,29 +8,6 @@ import MockRecordTable from './components/mockRecordTable'
 import ExtensionSettings from './components/extensionSettings'
 import OauthPanel from './components/oauthPanel'
 
-// const panes = [
-//     {
-//         menuItem: (<Menu.Item key='activeMocks'>
-//             <Icon name='random' />
-//             接口管理<Label>15</Label>
-//         </Menu.Item>), render: () => <Tab.Pane><MockRecordTable /></Tab.Pane>
-//     },
-//     {
-//         menuItem: (<Menu.Item key='activeMocks'>
-//             <Icon name='user' />
-//             登陆管理
-//         </Menu.Item>), 
-//         // render: () => <Tab.Pane><OauthPanel /></Tab.Pane>
-//         render: () => <Tab.Pane><OauthPanel /></Tab.Pane>
-//     },
-//     {
-//         menuItem: (<Menu.Item key='activeMocks'>
-//             <Icon name='settings' />
-//             插件设置/关于
-//         </Menu.Item>), render: () => <Tab.Pane><ExtensionSettings /></Tab.Pane>
-//     },
-// ]
-
 const panes = [
     {
         menuItem: (<Menu.Item key='activeMocks'>

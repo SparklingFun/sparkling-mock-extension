@@ -1,17 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Divider, Header, Icon, Message, Button, Checkbox, Form } from 'semantic-ui-react'
+import { ONLINE_SET } from '../vars'
 
 const LoginedPanel = (props) => {
     const [messageStatus, setMsgStatus] = useState(true)
+    const [localUserState, updateLocalUserInfo] = useState(null)
+
+    useEffect(() => {
+        const localUserInfo = JSON.parse(localStorage.getItem(ONLINE_SET))
+        if (localUserInfo) {
+            updateLocalUserInfo(localUserInfo)
+        }
+    }, [])
 
     return (
         <div>
             {
-                messageStatus ?
+                messageStatus && localUserState !== null ?
                     <Message
                         onDismiss={() => setMsgStatus(false)}
-                        header='Welcome back!'
-                        content='This is a special notification which you can dismiss.'
+                        header={`Hello, ${localUserState.name}`}
                     /> : ''
             }
             <Divider horizontal>
@@ -22,7 +30,7 @@ const LoginedPanel = (props) => {
             </Divider>
             <Form>
                 <Form.Field>
-                    <Checkbox label='开启Cloudflare服务缓存' />
+                    <Checkbox label='开启Cloudflare服务缓存' defaultChecked={localUserState && localUserState.settings.enable_cache} />
                 </Form.Field>
                 <Button icon labelPosition='left' type='submit'>
                     <Icon name='save' />

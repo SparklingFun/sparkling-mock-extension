@@ -3,6 +3,7 @@ import axios from 'axios'
 import { nanoid } from 'nanoid'
 import { GithubLoginButton } from 'react-social-login-buttons'
 import { Segment, Loader } from 'semantic-ui-react'
+import { ONLINE_SET } from '../vars'
 
 const noLoginPanel = (props) => {
     // functions
@@ -17,10 +18,13 @@ const noLoginPanel = (props) => {
     }
     const verifyOauthStatus = (state, timerID) => {
         axios.get('https://mock-public-api-dev.sparkling.workers.dev/oauth-verify?state=' + state).then(
-            data => {
-                if(data.data.data.code === 1) {
+            res => {
+                let data = res.data.data
+                if(data.code === 1) {
                     clearInterval(timerID)
                     setLoadingState(false)
+                    let userinfo = data.userinfo
+                    localStorage.setItem(ONLINE_SET, JSON.stringify(userinfo))
                     props.loginSuccess()
                 }
             },

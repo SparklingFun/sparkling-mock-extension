@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Divider, Header, Icon, Input, Button, Checkbox, Form } from 'semantic-ui-react'
 
 const ExtensionSettings = () => {
-    
+    const [useOnlineSrv, setUseOnlineSrv] = useState(false)
     return (
         <Form>
             <Divider horizontal>
@@ -11,9 +11,10 @@ const ExtensionSettings = () => {
                     全局配置
                 </Header>
             </Divider>
-            <Form.Field width='2'>
-                <label>启用/禁用插件</label>
-                <Checkbox toggle />
+            <Form.Field width='14'>
+                {/* <label>启用/禁用插件</label> */}
+                <Checkbox toggle label="启用/禁用插件" />
+                <Checkbox label="是否使用Gist数据接口？" toggle onChange={() => setUseOnlineSrv(!useOnlineSrv)} />
             </Form.Field>
             <Form.Field width='14'>
                 <label>接口API地址</label>
@@ -23,7 +24,7 @@ const ExtensionSettings = () => {
                     icon: 'save',
                     content: '保存',
                 }}
-                    defaultValue='' placeholder='https://' />
+                    defaultValue='' placeholder='https://' disabled={useOnlineSrv} />
             </Form.Field>
             <Form.Field width='8'>
                 <label>自定义参数</label>
