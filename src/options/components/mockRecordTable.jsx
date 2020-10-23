@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table, Button } from 'semantic-ui-react'
 import styled from 'styled-components';
 // Components
@@ -8,7 +8,35 @@ const StyledButton = styled(Button)({
     color: 'red!important'
 });
 
-const MockRecordTable = () => {
+const MockRecordTable = (props) => {
+    const [records, setRecords] = useState(Array(0))
+
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        if(request.from === "background" && request.data.type === "create") {
+            let newRecords = records.concat(request.data.info)
+            setRecords(newRecords)
+        }
+    })
+
+    useEffect(() => {
+        let newRecords = []
+        let extSettingsReg = new RegExp('^[__extension-|__SPARKLING_](.*)', 'g')
+        let _local = Object.keys(localStorage)
+        for(let i in _local) {
+            // if(!extSettingsReg.test(_local[i])) { // why???
+            if(!_local[i].match(extSettingsReg)) {
+                newRecords.push(localStorage.getItem(_local[i]))
+            }
+        }
+        if(newRecords.length > 0) {
+            setRecords(newRecords)
+        }
+    }, [])
+
+    useEffect(() => {
+        props.updateNum(records.length)
+    }, [records])
+
     return (
         <div className="table-box">
             <Table celled>
@@ -22,7 +50,9 @@ const MockRecordTable = () => {
                 </Table.Header>
 
                 <Table.Body>
-                    <MockRecord></MockRecord>
+                    {records.map(item => {
+                        return <MockRecord info={item} key={item.id}></MockRecord>
+                    })}
                 </Table.Body>
             </Table>
             <StyledButton onClick={() => { }}>测试</StyledButton>

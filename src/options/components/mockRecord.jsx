@@ -1,14 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table, Modal, Select, Button } from 'semantic-ui-react'
 
-export default function MockRecord() {
+export default function MockRecord(props) {
     const [opt, setOpt] = useState(0);
     const [open, setOpen] = React.useState(false)
+    const [info, updateInfo] = useState(props.info)
+
+    const switchStatus = (bool) => {
+        // console.log(bool)
+        let _info = JSON.parse(JSON.stringify(info))
+        _info.status = bool
+        updateInfo(_info)
+    }
+
+    useEffect(() => {
+        localStorage.setItem(info.id, JSON.stringify(info))
+    }, [info])
 
     return (
         <Table.Row>
-            <Table.Cell collapsing><a>Cell</a></Table.Cell>
-            <Table.Cell width="10">Cell</Table.Cell>
+            <Table.Cell collapsing><a>{info.name}</a></Table.Cell>
+            <Table.Cell width="10">{info.url}</Table.Cell>
             <Table.Cell collapsing>
                 <Select placeholder='选择情景' options={[]} value={opt} onChange={(e, data) => console.log(data)} />
                 <Modal
@@ -30,7 +42,7 @@ export default function MockRecord() {
                     <Modal.Actions>
                         <Button color='black' onClick={() => setOpen(false)}>
                             取消
-                                        </Button>
+                        </Button>
                         <Button
                             content="确认"
                             labelPosition='right'
@@ -42,8 +54,7 @@ export default function MockRecord() {
                 </Modal>
             </Table.Cell>
             <Table.Cell collapsing>
-                <Button positive>启用</Button>
-                <Button negative>禁用</Button>
+                {info.status ? <Button negative onClick={() => switchStatus(false)}>禁用</Button> : <Button positive onClick={() => switchStatus(true)}>启用</Button>}
             </Table.Cell>
         </Table.Row>
     )

@@ -33,13 +33,13 @@ const addEntries = () => {
     return entryObj
 }
 
-const addHtmlWebpackPlugin = () => {
+const addHtmlWebpackPlugin = (isProd) => {
     let pluginsArr = []
     getEntry().forEach(item => {
         pluginsArr.push(
             new HtmlWebpackPlugin({
                 filename: `${item}.html`,
-                template: path.resolve(process.cwd(), 'src/index.html'),
+                template: isProd ? path.resolve(process.cwd(), 'src/index.html') : path.resolve(process.cwd(), 'src/index.dev.html'),
                 hash: true,
                 chunks: ["vendor", item],
                 inject: true,
@@ -130,7 +130,7 @@ module.exports = {
         ]
     },
     plugins: [
-        ...addHtmlWebpackPlugin(),
+        ...addHtmlWebpackPlugin(isProd),
         new MiniCssExtractPlugin({
             filename: '[name].css'
         }),
