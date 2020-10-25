@@ -1,6 +1,7 @@
 import React from "react";
 import '&/styles/reset.css'
 import 'semantic-ui-css/semantic.min.css'
+import { ONLINE_DOMAIN } from '../options/vars.js'
 
 const extensionSettings = {
     default: {"status": false, "path": "http://localhost:3001/mock", "param": "ajaxID"},
@@ -73,7 +74,7 @@ function App() {
             let record = JSON.parse(localStorage.getItem(ajaxId));
             if (record.status === false) return;
             return {
-                redirectUrl: (extensionSettings.getEnableOnline() ? 'https://mock-public-api-dev.sparkling.workers.dev/mock' : extensionSettings.getMockPath()) + '?id=' + ajaxId
+                redirectUrl: (extensionSettings.getEnableOnline() ? ONLINE_DOMAIN : extensionSettings.getMockPath()) + '?id=' + ajaxId
             }
         }
     }
