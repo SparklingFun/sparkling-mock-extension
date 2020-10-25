@@ -19,7 +19,7 @@ const noLoginPanel = (props) => {
     const verifyOauthStatus = (state, timerID) => {
         axios.get('https://mock-public-api-dev.sparkling.workers.dev/oauth-verify?state=' + state).then(
             res => {
-                let data = res.data.data
+                let data = res.data
                 if(data.code === 1) {
                     clearInterval(timerID)
                     setLoadingState(false)
