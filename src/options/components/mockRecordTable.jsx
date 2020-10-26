@@ -12,20 +12,29 @@ const MockRecordTable = (props) => {
     const [records, setRecords] = useState(Array(0))
 
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-        if(request.from === "background" && request.data.type === "create") {
-            let newRecords = records.concat(request.data.info)
+        if(request.from === "background") {
+            let newRecords = records.concat(request.data)
             setRecords(newRecords)
         }
     })
 
+    const manualUpdateHandler = (data) => {
+        let newRecords = records.map((item) => {
+            if(item.id === data.id) {
+                return data
+            }
+        })
+        setRecords(newRecords)
+    }
+
     useEffect(() => {
         let newRecords = []
-        let extSettingsReg = new RegExp('^[__extension-|__SPARKLING_](.*)', 'g')
+        // let extSettingsReg = new RegExp('^[__extension-|__SPARKLING_](.*)')
+        let extSettingsReg = /^__extension-|__SPARKLING_(.*)/
         let _local = Object.keys(localStorage)
         for(let i in _local) {
-            // if(!extSettingsReg.test(_local[i])) { // why???
-            if(!_local[i].match(extSettingsReg)) {
-                newRecords.push(localStorage.getItem(_local[i]))
+            if(!extSettingsReg.test(_local[i])) {
+                newRecords.push(JSON.parse(localStorage.getItem(_local[i])))
             }
         }
         if(newRecords.length > 0) {
@@ -45,17 +54,15 @@ const MockRecordTable = (props) => {
                         <Table.HeaderCell>接口名称</Table.HeaderCell>
                         <Table.HeaderCell>请求地址</Table.HeaderCell>
                         <Table.HeaderCell>选择情景</Table.HeaderCell>
-                        <Table.HeaderCell>接口状态</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
-
                 <Table.Body>
                     {records.map(item => {
-                        return <MockRecord info={item} key={item.id}></MockRecord>
+                        return <MockRecord info={item} key={item.id} manualUpdate={manualUpdateHandler}></MockRecord>
                     })}
                 </Table.Body>
             </Table>
-            <StyledButton onClick={() => { }}>测试</StyledButton>
+            {/* <StyledButton onClick={() => { }}>测试</StyledButton> */}
 
             <style jsx>{`
                 .table-box {

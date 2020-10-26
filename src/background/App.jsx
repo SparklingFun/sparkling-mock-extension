@@ -2,9 +2,10 @@ import React from "react";
 import '&/styles/reset.css'
 import 'semantic-ui-css/semantic.min.css'
 import { ONLINE_DOMAIN } from '../options/vars.js'
+import axios from 'axios'
 
 const extensionSettings = {
-    default: {"status": false, "path": "http://localhost:3001/mock", "param": "ajaxID"},
+    default: { "status": false, "path": "http://localhost:3001/mock", "param": "ajaxID" },
     getMockStatus: function () {
         let data = localStorage.getItem('__extension-settings__')
         if (!data) data = JSON.stringify(this.default)
@@ -21,18 +22,52 @@ const extensionSettings = {
         return JSON.parse(data).param || 'ajaxID'
     },
     getToken: function () {
-        let data = localStorage.getItem('__extension-token__')
+        let data = localStorage.getItem('__SPARKLING_ONLINE_CONFIG__')
         if (!data) return ''
-        return data
+        return JSON.parse(data).token || ''
     },
-    getEnableOnline: function() {
+    getEnableOnline: function () {
         let data = localStorage.getItem('__extension-enableOnline__')
-        if(!data) return false
+        if (!data) return false
         return true
     }
 }
 const bgSendMessage = function (data) {
-    chrome.runtime.sendMessage({ from: 'background', data });
+    // key:id, value: {url: "some-test-url.com", status: false, con_id: '', full_info: null, name: '', id: ''}
+    let apiPath = extensionSettings.getEnableOnline() ? ONLINE_DOMAIN : extensionSettings.getMockPath()
+    let token = extensionSettings.getToken()
+    axios(apiPath + '/find?id=' + data.info.id, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Sparkling-Client-Token': token
+        }
+    }).then(
+        // {"code":1,"data":{"category":"测试","name":"测试新创建用户-创建记录","url":"https://this-is-a-test-url.sparkling.fun","mock_data":[{"status":200,"delay":0,"data":"{\"test\": 1}","con_id":"lGy2qmry"}],"id":"g73CS7ngLG3J"}}
+        resp => {
+            if (resp.data.code !== 1) {
+                console.log(`Get Mock Full Data Fail, id: ${data.info.id}.`);
+                return;
+            };
+            if (resp.data.data.id !== data.info.id) {
+                console.log('Record have some problem');
+                return;
+            }
+            let parsedData = {
+                url: resp.data.data.url,
+                status: false,
+                con_id: '',
+                full_info: resp.data.data.mock_data,
+                name: resp.data.data.name,
+                id: resp.data.data.id
+            }
+            localStorage.setItem(data.info.id, JSON.stringify(parsedData))
+            chrome.runtime.sendMessage({ from: 'background', data: parsedData });
+        },
+        err => {
+            console.log(err)
+        }
+    )
 }
 
 function App() {
@@ -41,6 +76,17 @@ function App() {
             url: chrome.runtime.getURL('options.html'),
             active: true
         });
+    });
+
+    chrome.runtime.onInstalled.addListener(function (data) {
+        // after install, active options.html to init local storage.
+        if (data.reason == 'install') {
+            chrome.tabs.create({
+                url: chrome.runtime.getURL('options.html'),
+                active: true
+            })
+        }
+        if (data.reason == 'update') { }
     });
 
     // functions for request blocking
@@ -56,7 +102,7 @@ function App() {
             status: false,
             con_id: '',
             full_info: null,
-            name: '未命名',
+            name: '',
             id
         }
         localStorage.setItem(id, JSON.stringify(storeInfo))

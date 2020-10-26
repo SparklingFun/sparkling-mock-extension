@@ -19,7 +19,7 @@ const LoginedPanel = (props) => {
                 messageStatus && localUserState !== null ?
                     <Message
                         onDismiss={() => setMsgStatus(false)}
-                        header={`Hello, ${localUserState.name}`}
+                        header={`Hello, ${localUserState.name || localUserState.login}`}
                     /> : ''
             }
             <Divider horizontal>

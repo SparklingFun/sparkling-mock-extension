@@ -18,6 +18,7 @@
         "storage",
         "tabs"
     ],
+    "incognito":"split",
     "browser_action": {
         "default_icon": "./ext-icon.png"
     }
