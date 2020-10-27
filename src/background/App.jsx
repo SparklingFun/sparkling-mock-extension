@@ -56,6 +56,7 @@ const bgSendMessage = function (data) {
             let parsedData = {
                 url: resp.data.data.url,
                 status: false,
+                category: resp.data.category,
                 con_id: '',
                 full_info: resp.data.data.mock_data,
                 name: resp.data.data.name,
@@ -147,12 +148,12 @@ function App() {
         if (!extensionSettings.getMockStatus()) return;
         if (!extensionSettings.getMockPath()) return;
         if (!info.type === "xmlhttprequest") return;
-        let ajaxId = new URL(info.url).searchParams.get(extensionSettings.getMockParam()) || '';
+        let ajaxId = new URL(info.url).searchParams.get('id');
         if (!ajaxId) return;
         let headers = info.requestHeaders
         // Add private token
         headers.push({ name: "Sparkling-Client-Token", value: extensionSettings.getToken() })
-        info.requestHeaders = headers
+        return { requestHeaders: headers }
     },
         { urls: ["<all_urls>"] },
         ["blocking", "requestHeaders"]);
