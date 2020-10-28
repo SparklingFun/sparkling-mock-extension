@@ -64,7 +64,8 @@ module.exports = {
     entry: addEntries(),
     output: {
         filename: '[name].js',
-        path: path.resolve(process.cwd(), 'dist')
+        path: path.resolve(process.cwd(), 'dist'),
+        publicPath: path.resolve(process.cwd(), 'dist')
     },
     resolve: {
         extensions: ['.sass', '.scss', '.js', '.jsx', '.css'],
@@ -125,7 +126,10 @@ module.exports = {
             },
             {
                 test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-                loader: 'url-loader?limit=100000'
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                }
             }
         ]
     },

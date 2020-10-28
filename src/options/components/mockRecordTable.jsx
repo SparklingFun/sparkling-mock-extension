@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Table, Button } from 'semantic-ui-react'
 import styled from 'styled-components';
 // Components
 import MockRecord from './mockRecord'
-
-const StyledButton = styled(Button)({
-    color: 'red!important'
-});
+import { RecordEditModal } from './recordEditModal'
+import { MessageContext } from '../ContextManager'
 
 const MockRecordTable = (props) => {
-    const [records, setRecords] = useState(Array(0))
+    const [records, setRecords] = useState([])
+    const { addMessage } = useContext(MessageContext)
 
-    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-        if(request.from === "background") {
+    chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+        if (request.from === "background") {
             let newRecords = records.concat(request.data)
             setRecords(newRecords)
         }
@@ -20,8 +19,10 @@ const MockRecordTable = (props) => {
 
     const manualUpdateHandler = (data) => {
         let newRecords = records.map((item) => {
-            if(item.id === data.id) {
+            if (item.id === data.id) {
                 return data
+            } else {
+                return item
             }
         })
         setRecords(newRecords)
@@ -29,15 +30,14 @@ const MockRecordTable = (props) => {
 
     useEffect(() => {
         let newRecords = []
-        // let extSettingsReg = new RegExp('^[__extension-|__SPARKLING_](.*)')
         let extSettingsReg = /^__extension-|__SPARKLING_(.*)/
         let _local = Object.keys(localStorage)
-        for(let i in _local) {
-            if(!extSettingsReg.test(_local[i])) {
+        for (let i in _local) {
+            if (!extSettingsReg.test(_local[i])) {
                 newRecords.push(JSON.parse(localStorage.getItem(_local[i])))
             }
         }
-        if(newRecords.length > 0) {
+        if (newRecords.length > 0) {
             setRecords(newRecords)
         }
     }, [])
@@ -48,6 +48,9 @@ const MockRecordTable = (props) => {
 
     return (
         <div className="table-box">
+            <RecordEditModal isCreate={true} addMessage={addMessage} triggerComponent={
+                <Button positive>创建新Mock数据</Button>
+            }></RecordEditModal>
             <Table celled>
                 <Table.Header>
                     <Table.Row>

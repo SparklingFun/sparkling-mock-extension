@@ -4,7 +4,6 @@ import { Table, Select, Button, Icon } from 'semantic-ui-react'
 import { RecordEditModal } from './recordEditModal'
 import { extensionSettings, ONLINE_DOMAIN } from '../vars'
 import { MessageContext } from '../ContextManager'
-import { nanoid } from 'nanoid'
 
 export default memo(function MockRecord(props) {
     const info = props.info
@@ -81,12 +80,8 @@ export default memo(function MockRecord(props) {
                 addMessage({
                     ok: true,
                     header: '接口更新成功',
-                    content: `接口"${parsedData.name}"更新成功！`,
-                    id: nanoid(4)
+                    content: `接口"${parsedData.name}"更新成功！`
                 })
-            },
-            err => {
-                console.log(err)
             }
         )
     }
@@ -101,13 +96,24 @@ export default memo(function MockRecord(props) {
     }, [])
 
     return (
+        <>
         <Table.Row>
             <Table.Cell collapsing><a>{info.name}</a></Table.Cell>
             <Table.Cell width="10">{info.url}</Table.Cell>
             <Table.Cell collapsing>
                 <Select placeholder='选择情景' options={conList} value={opt} onChange={(e, data) => switchConHandler(data, info.id)} />
-                <RecordEditModal recordId={info.id} isCreate={false} refreshHandler={() => refreshDataHandler()} ></RecordEditModal>
-                <Button icon onClick={() => { refreshDataHandler() }}>
+                <RecordEditModal recordId={info.id} isCreate={false} refreshHandler={refreshDataHandler} addMessage={addMessage} ></RecordEditModal>
+                <Button icon onClick={() => { refreshDataHandler().catch(e => {
+                    addMessage({
+                        ok: false,
+                        header: "删除失败",
+                        content: "数据不存在或已删除！"
+                    })
+                    localStorage.removeItem(info.id)
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 2000)
+                }) }}>
                     <Icon name='refresh' />
                 </Button>
                 <Button icon negative onClick={() =>  delRecordHandler() }>
@@ -118,5 +124,6 @@ export default memo(function MockRecord(props) {
                 {info.status ? <Button negative onClick={() => switchStatus(false)}>禁用</Button> : <Button positive onClick={() => switchStatus(true)}>启用</Button>}
             </Table.Cell> */}
         </Table.Row>
+        </>
     )
 })
