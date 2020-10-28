@@ -1,27 +1,34 @@
-import React, { useState, useEffect } from 'react'
-import { Divider, Header, Icon, Message, Button, Checkbox, Form } from 'semantic-ui-react'
+import React, { useState, useEffect, useContext } from 'react'
+import { Divider, Header, Icon, Button, Checkbox, Form } from 'semantic-ui-react'
 import { ONLINE_SET } from '../vars'
+import { MessageContext } from '../ContextManager'
 
 const LoginedPanel = (props) => {
-    const [messageStatus, setMsgStatus] = useState(true)
     const [localUserState, updateLocalUserInfo] = useState(null)
+    const { addMessage } = useContext(MessageContext)
+
+    const saveOnlineConfigHandler = () => {}
+    const updateSetting = (data) => {
+        let newState = JSON.parse(JSON.stringify(localUserState))
+        newState.settings.enable_cache = data.value
+        updateLocalUserInfo(newState)
+        localStorage.setItem(ONLINE_SET, JSON.stringify(newState))
+    }
 
     useEffect(() => {
         const localUserInfo = JSON.parse(localStorage.getItem(ONLINE_SET))
         if (localUserInfo) {
             updateLocalUserInfo(localUserInfo)
+            addMessage({
+                ok: true,
+                header: '授权成功',
+                content: '欢迎，' + (localUserInfo.name || localUserInfo.login)
+            })
         }
     }, [])
 
     return (
         <div>
-            {
-                messageStatus && localUserState !== null ?
-                    <Message
-                        onDismiss={() => setMsgStatus(false)}
-                        header={`Hello, ${localUserState.name || localUserState.login}`}
-                    /> : ''
-            }
             <Divider horizontal>
                 <Header as='h4'>
                     <Icon name='user' />
@@ -30,9 +37,9 @@ const LoginedPanel = (props) => {
             </Divider>
             <Form>
                 <Form.Field>
-                    <Checkbox label='开启Cloudflare服务缓存' defaultChecked={localUserState && localUserState.settings.enable_cache} />
+                    <Checkbox label='开启Cloudflare服务缓存' defaultChecked={localUserState && localUserState.settings.enable_cache} onChange={(e, data) => updateSetting(data)} />
                 </Form.Field>
-                <Button icon labelPosition='left' type='submit'>
+                <Button icon labelPosition='left' type='submit' onClick={() => {saveOnlineConfigHandler()}}>
                     <Icon name='save' />
                     保存
                 </Button>
