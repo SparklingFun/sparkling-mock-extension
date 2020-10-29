@@ -2,6 +2,8 @@
 const ONLINE_SET = '__SPARKLING_ONLINE_CONFIG__';
 const PLUGIN_SET = '__SPARKLING_PLUGIN_CONFIG__';
 const ONLINE_DOMAIN = 'https://mock.sparkling.fun/mock';
+const ENV = 'production';
+const VERSION = process.env.npm_package_version;
 
 const extensionSettings = {
     default: { "status": false, "path": "http://localhost:3001/mock", "param": "ajaxID" },
@@ -36,5 +38,7 @@ module.exports = {
     ONLINE_SET,
     PLUGIN_SET,
     ONLINE_DOMAIN,
-    extensionSettings
+    extensionSettings,
+    ENV,
+    VERSION
 }
