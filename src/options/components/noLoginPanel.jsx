@@ -3,7 +3,6 @@ import axios from 'axios'
 import { nanoid } from 'nanoid'
 import { GithubLoginButton } from 'react-social-login-buttons'
 import { Segment, Loader } from 'semantic-ui-react'
-import { ONLINE_SET } from '../vars'
 
 const noLoginPanel = (props) => {
     // functions
@@ -24,7 +23,7 @@ const noLoginPanel = (props) => {
                     clearInterval(timerID)
                     setLoadingState(false)
                     let userinfo = data.userinfo
-                    localStorage.setItem(ONLINE_SET, JSON.stringify(userinfo))
+                    localStorage.setItem(_VARS_.ONLINE_SET, JSON.stringify(userinfo))
                     props.loginSuccess()
                 }
             },

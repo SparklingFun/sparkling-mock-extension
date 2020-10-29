@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Divider, Header, Icon, Input, Button, Checkbox, Form } from 'semantic-ui-react'
-import { ONLINE_DOMAIN } from '../vars.js'
 
 const ExtensionSettings = () => {
     let config = {"status": false, "path": "http://localhost:3001/mock", "param": "ajaxID"}
@@ -72,7 +71,7 @@ const ExtensionSettings = () => {
                     icon: 'save',
                     content: '保存'
                 }}
-                    value={ useOnlineSrv ? ONLINE_DOMAIN : apiPath} placeholder='https://' disabled={useOnlineSrv} />
+                    value={ useOnlineSrv ? _VARS_.ONLINE_DOMAIN : apiPath} placeholder='https://' disabled={useOnlineSrv} />
             </Form.Field>
             <Form.Field width='8'>
                 <label>自定义参数</label>

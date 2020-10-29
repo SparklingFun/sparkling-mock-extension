@@ -1,7 +1,6 @@
 import React from "react";
 import '&/styles/reset.css'
 import 'semantic-ui-css/semantic.min.css'
-import { ONLINE_DOMAIN } from '../options/vars.js'
 import axios from 'axios'
 
 const extensionSettings = {
@@ -34,7 +33,7 @@ const extensionSettings = {
 }
 const bgSendMessage = function (data) {
     // key:id, value: {url: "some-test-url.com", status: false, con_id: '', full_info: null, name: '', id: ''}
-    let apiPath = extensionSettings.getEnableOnline() ? ONLINE_DOMAIN : extensionSettings.getMockPath()
+    let apiPath = extensionSettings.getEnableOnline() ? _VARS_.ONLINE_SET : extensionSettings.getMockPath()
     let token = extensionSettings.getToken()
     axios(apiPath + '/find?id=' + data.info.id, {
         method: 'GET',
@@ -121,7 +120,7 @@ function App() {
             let record = JSON.parse(localStorage.getItem(ajaxId));
             if (record.status === false) return;
             return {
-                redirectUrl: (extensionSettings.getEnableOnline() ? ONLINE_DOMAIN : extensionSettings.getMockPath()) + '?id=' + ajaxId
+                redirectUrl: (extensionSettings.getEnableOnline() ? _VARS_.ONLINE_SET : extensionSettings.getMockPath()) + '?id=' + ajaxId
             }
         }
     }

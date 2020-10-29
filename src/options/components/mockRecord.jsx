@@ -2,7 +2,6 @@ import Axios from 'axios';
 import React, { useContext, useEffect, useState, memo } from 'react'
 import { Table, Select, Button, Icon } from 'semantic-ui-react'
 import { RecordEditModal } from './recordEditModal'
-import { extensionSettings, ONLINE_DOMAIN } from '../vars'
 import { MessageContext } from '../ContextManager'
 
 export default memo(function MockRecord(props) {
@@ -44,12 +43,12 @@ export default memo(function MockRecord(props) {
 
     const refreshDataHandler = () => {
         let id = info.id
-        let apiPath = extensionSettings.getEnableOnline() ? ONLINE_DOMAIN : extensionSettings.getMockPath()
+        let apiPath = _VARS_.extensionSettings.getEnableOnline() ? _VARS_.ONLINE_DOMAIN : _VARS_.extensionSettings.getMockPath()
         return Axios.get(apiPath + '/find?id=' + id, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Sparkling-Client-Token': extensionSettings.getToken()
+                'Sparkling-Client-Token': _VARS_.extensionSettings.getToken()
             }
         }).then(
             resp => {

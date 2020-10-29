@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { Table, Button } from 'semantic-ui-react'
-import styled from 'styled-components';
 // Components
 import MockRecord from './mockRecord'
 import { RecordEditModal } from './recordEditModal'

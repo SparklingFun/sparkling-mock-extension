@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Divider, Header, Icon, Button, Checkbox, Form } from 'semantic-ui-react'
-import { ONLINE_SET } from '../vars'
 import { MessageContext } from '../ContextManager'
 
 const LoginedPanel = (props) => {
@@ -12,11 +11,11 @@ const LoginedPanel = (props) => {
         let newState = JSON.parse(JSON.stringify(localUserState))
         newState.settings.enable_cache = data.value
         updateLocalUserInfo(newState)
-        localStorage.setItem(ONLINE_SET, JSON.stringify(newState))
+        localStorage.setItem(_VARS_.ONLINE_SET, JSON.stringify(newState))
     }
 
     useEffect(() => {
-        const localUserInfo = JSON.parse(localStorage.getItem(ONLINE_SET))
+        const localUserInfo = JSON.parse(localStorage.getItem(_VARS_.ONLINE_SET))
         if (localUserInfo) {
             updateLocalUserInfo(localUserInfo)
             addMessage({

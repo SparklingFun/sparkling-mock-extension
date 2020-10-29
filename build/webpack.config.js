@@ -1,11 +1,9 @@
 // Node.js Modules
 const path = require('path')
 const glob = require('glob')
-
 const isProd = process.env.NODE_ENV === 'production'
-
 // Webpack & Plugins
-// const webpack = require('webpack')
+const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -13,7 +11,7 @@ const ResourceHintWebpackPlugin = require('resource-hints-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const getEntry = () => {
-    let globPath = 'src/**/*.js' // 匹配src目录下的所有文件夹中的js文件
+    let globPath = 'src/**/index.js' // 匹配src目录下的所有文件夹中的js文件
     // (\/|\\\\) 这种写法是为了兼容 windows和 mac系统目录路径的不同写法
     let pathDir = 'src(\/|\\\\)(.*?)(\/|\\\\)' // 路径为src目录下的所有文件夹
     let files = glob.sync(globPath)
@@ -24,7 +22,6 @@ const getEntry = () => {
     }
     return entries
 }
-
 const addEntries = () => {
     let entryObj = {}
     getEntry().forEach(item => {
@@ -32,7 +29,6 @@ const addEntries = () => {
     })
     return entryObj
 }
-
 const addHtmlWebpackPlugin = (isProd) => {
     let pluginsArr = []
     getEntry().forEach(item => {
@@ -65,7 +61,7 @@ module.exports = {
     output: {
         filename: '[name].js',
         path: path.resolve(process.cwd(), 'dist'),
-        publicPath: path.resolve(process.cwd(), 'dist')
+        publicPath: '/'
     },
     resolve: {
         extensions: ['.sass', '.scss', '.js', '.jsx', '.css'],
@@ -142,6 +138,9 @@ module.exports = {
         new ResourceHintWebpackPlugin(),
         new CopyWebpackPlugin({
             patterns: [{ from: 'public', to: './' }]
+        }),
+        new webpack.ProvidePlugin({
+            _VARS_: isProd ? path.resolve(process.cwd(), 'src', 'vars.js') : path.resolve(process.cwd(), 'src', 'vars.dev.js')
         })
     ]
 }
