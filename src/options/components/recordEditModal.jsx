@@ -2,7 +2,7 @@ import Axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Popup } from 'semantic-ui-react'
 import { Modal, Button, Icon, Form } from 'semantic-ui-react'
-import { extensionSettings, ONLINE_DOMAIN } from '../vars'
+import { extensionSettings, ONLINE_DOMAIN } from '../../vars'
 
 export function RecordEditModal(props) {
     const id = props.recordId

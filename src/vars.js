@@ -1,9 +1,9 @@
 // localStorage special keys
-export const ONLINE_SET = '__SPARKLING_ONLINE_CONFIG__';
-export const PLUGIN_SET = '__SPARKLING_PLUGIN_CONFIG__';
-export const ONLINE_DOMAIN = 'https://mock-public-api-dev.sparkling.workers.dev/mock';
+const ONLINE_SET = '__SPARKLING_ONLINE_CONFIG__';
+const PLUGIN_SET = '__SPARKLING_PLUGIN_CONFIG__';
+const ONLINE_DOMAIN = 'https://mock.sparkling.fun/mock';
 
-export const extensionSettings = {
+const extensionSettings = {
     default: { "status": false, "path": "http://localhost:3001/mock", "param": "ajaxID" },
     getMockStatus: function () {
         let data = localStorage.getItem('__extension-settings__')
@@ -30,4 +30,11 @@ export const extensionSettings = {
         if (!data) return false
         return true
     }
+}
+
+module.exports = {
+    ONLINE_SET,
+    PLUGIN_SET,
+    ONLINE_DOMAIN,
+    extensionSettings
 }

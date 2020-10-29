@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import NoLoginPane from './noLoginPanel'
 import LoginedPanel from './loginedPanel'
-import { ONLINE_SET } from '../vars'
+// import { _VARS_.ONLINE_SET } from '../vars'
 
 const OauthPanel = () => {
     const [logined, setLogin] = useState(false)
 
     useEffect(() => {
-        if(localStorage.getItem(ONLINE_SET) !== null) {
+        if(localStorage.getItem(_VARS_.ONLINE_SET) !== null) {
             setLogin(true)
         }
     }, [])
@@ -15,7 +15,7 @@ const OauthPanel = () => {
     // functions
     const fnLogout = () => {
         setLogin(false)
-        localStorage.removeItem(ONLINE_SET)
+        localStorage.removeItem(_VARS_.ONLINE_SET)
     }
 
     return (
