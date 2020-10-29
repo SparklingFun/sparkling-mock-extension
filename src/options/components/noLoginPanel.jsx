@@ -3,7 +3,6 @@ import axios from 'axios'
 import { nanoid } from 'nanoid'
 import { GithubLoginButton } from 'react-social-login-buttons'
 import { Segment, Loader } from 'semantic-ui-react'
-// import { _VARS_.ONLINE_SET } from '../vars'
 
 const noLoginPanel = (props) => {
     // functions

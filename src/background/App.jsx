@@ -1,7 +1,6 @@
 import React from "react";
 import '&/styles/reset.css'
 import 'semantic-ui-css/semantic.min.css'
-// import { _VARS_.ONLINE_SET } from '../options/vars.js'
 import axios from 'axios'
 
 const extensionSettings = {

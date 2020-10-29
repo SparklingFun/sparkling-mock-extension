@@ -2,7 +2,6 @@ import Axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Popup } from 'semantic-ui-react'
 import { Modal, Button, Icon, Form } from 'semantic-ui-react'
-import { extensionSettings, ONLINE_DOMAIN } from '../../vars'
 
 export function RecordEditModal(props) {
     const id = props.recordId
@@ -79,13 +78,13 @@ export function RecordEditModal(props) {
 
     // functions
     const delOnlineRecordHandler = () => {
-        let apiPath = extensionSettings.getEnableOnline() ? ONLINE_DOMAIN : extensionSettings.getMockPath()
+        let apiPath = _VARS_.extensionSettings.getEnableOnline() ? _VARS_.ONLINE_DOMAIN : _VARS_.extensionSettings.getMockPath()
         Axios.post(apiPath + '/delete', {
             id
         }, {
             headers: {
                 'Content-Type': 'application/json',
-                'Sparkling-Client-Token': extensionSettings.getToken()
+                'Sparkling-Client-Token': _VARS_.extensionSettings.getToken()
             }
         }).then(
             resp => {
@@ -215,11 +214,11 @@ export function RecordEditModal(props) {
             }
         }
         updateCreateLoading(true)
-        let apiPath = extensionSettings.getEnableOnline() ? ONLINE_DOMAIN : extensionSettings.getMockPath()
+        let apiPath = _VARS_.extensionSettings.getEnableOnline() ? _VARS_.ONLINE_DOMAIN : _VARS_.extensionSettings.getMockPath()
         Axios.post(apiPath + (isCreate ? '/create' : '/update'), record, {
             headers: {
                 'Content-Type': 'application/json',
-                'Sparkling-Client-Token': extensionSettings.getToken()
+                'Sparkling-Client-Token': _VARS_.extensionSettings.getToken()
             }
         }).then(
             resp => {

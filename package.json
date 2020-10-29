@@ -4,7 +4,7 @@
     "license": "MIT",
     "scripts": {
         "build": "NODE_ENV=production webpack --config ./build/webpack.config.js",
-        "build:dev": "NODE_ENV=development webpack --config ./build/webpack.config.js --profile --json > compilation-stats.json"
+        "build:dev": "NODE_ENV=development webpack --config ./build/webpack.config.js"
     },
     "devDependencies": {
         "@babel/core": "^7.12.3",

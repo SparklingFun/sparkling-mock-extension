@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Divider, Header, Icon, Input, Button, Checkbox, Form } from 'semantic-ui-react'
-// import { ONLINE_DOMAIN } from '../vars.js'
 
 const ExtensionSettings = () => {
     let config = {"status": false, "path": "http://localhost:3001/mock", "param": "ajaxID"}

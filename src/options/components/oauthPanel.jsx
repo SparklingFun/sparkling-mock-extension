@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import NoLoginPane from './noLoginPanel'
 import LoginedPanel from './loginedPanel'
-// import { _VARS_.ONLINE_SET } from '../vars'
 
 const OauthPanel = () => {
     const [logined, setLogin] = useState(false)

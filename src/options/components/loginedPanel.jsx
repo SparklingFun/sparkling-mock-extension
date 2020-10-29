@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Divider, Header, Icon, Button, Checkbox, Form } from 'semantic-ui-react'
-// import { ONLINE_SET } from '../vars'
 import { MessageContext } from '../ContextManager'
 
 const LoginedPanel = (props) => {

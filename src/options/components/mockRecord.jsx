@@ -2,7 +2,6 @@ import Axios from 'axios';
 import React, { useContext, useEffect, useState, memo } from 'react'
 import { Table, Select, Button, Icon } from 'semantic-ui-react'
 import { RecordEditModal } from './recordEditModal'
-// import { _VARS_.extensionSettings, _VARS_.ONLINE_DOMAIN } from '../../vars'
 import { MessageContext } from '../ContextManager'
 
 export default memo(function MockRecord(props) {
