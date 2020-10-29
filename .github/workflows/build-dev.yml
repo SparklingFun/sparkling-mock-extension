@@ -19,6 +19,6 @@ jobs:
       - name: Archive Development artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: dist-files
+          name: sparkling-mock-extension-dev
           path: |
             dist
