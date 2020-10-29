@@ -141,6 +141,9 @@ module.exports = {
         }),
         new webpack.ProvidePlugin({
             _VARS_: isProd ? path.resolve(process.cwd(), 'src', 'vars.js') : path.resolve(process.cwd(), 'src', 'vars.dev.js')
-        })
+        }),
+        new webpack.DefinePlugin({
+            'process.env.npm_package_version': JSON.stringify(process.env.npm_package_version)
+          })
     ]
 }
