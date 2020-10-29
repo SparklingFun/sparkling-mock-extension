@@ -1,12 +1,9 @@
 // Node.js Modules
 const path = require('path')
 const glob = require('glob')
-const webpack = require('webpack')
-
 const isProd = process.env.NODE_ENV === 'production'
-
 // Webpack & Plugins
-// const webpack = require('webpack')
+const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -25,7 +22,6 @@ const getEntry = () => {
     }
     return entries
 }
-
 const addEntries = () => {
     let entryObj = {}
     getEntry().forEach(item => {
@@ -33,7 +29,6 @@ const addEntries = () => {
     })
     return entryObj
 }
-
 const addHtmlWebpackPlugin = (isProd) => {
     let pluginsArr = []
     getEntry().forEach(item => {
