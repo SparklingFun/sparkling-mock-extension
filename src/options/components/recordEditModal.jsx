@@ -106,7 +106,6 @@ export function RecordEditModal(props) {
                 }
             }
         ).catch(e => {
-            // console.log(e.response)
             if(e.response.status === 404) {
                 addMessage({
                     ok: false,
