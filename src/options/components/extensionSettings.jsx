@@ -9,6 +9,8 @@ const ExtensionSettings = () => {
     const [enableState, setEnableState] = useState(config.status)
     const [apiPath, setApiPath] = useState(config.path)
     const [customParam, setCustomParam] = useState(config.param)
+    const [initFinish, setInitFinish] = useState(false)
+
     const { addMessage } = useContext(MessageContext)
 
     useEffect(() => {
@@ -26,6 +28,7 @@ const ExtensionSettings = () => {
         } else {
             localStorage.setItem('__extension-settings__', JSON.stringify(config))
         }
+        setInitFinish(true)
     }, [])
 
     useEffect(() => {
@@ -34,25 +37,27 @@ const ExtensionSettings = () => {
     }, [enableState])
 
     useEffect(() => {
+        if (initFinish) {
+            // clean all mock records in localStorage
+            let extSettingsReg = /^__extension-|__SPARKLING_(.*)/
+            let _local = Object.keys(localStorage)
+            for (let i in _local) {
+                if (!extSettingsReg.test(_local[i])) {
+                    localStorage.removeItem(_local[i])
+                }
+            }
+            addMessage({
+                ok: true,
+                header: '已完成',
+                content: '本地缓存清理完毕！'
+            })
+        }
         if (useOnlineSrv) {
             localStorage.setItem('__extension-enableOnline__', true)
         } else {
             setApiPath(config.path)
             localStorage.setItem('__extension-enableOnline__', false)
         }
-        // clean all mock records in localStorage
-        let extSettingsReg = /^__extension-|__SPARKLING_(.*)/
-        let _local = Object.keys(localStorage)
-        for (let i in _local) {
-            if (!extSettingsReg.test(_local[i])) {
-                localStorage.removeItem(_local[i])
-            }
-        }
-        addMessage({
-            ok: true,
-            header: '已完成',
-            content: '本地缓存清理完毕！'
-        })
     }, [useOnlineSrv])
 
     useEffect(() => {
@@ -80,7 +85,7 @@ const ExtensionSettings = () => {
                     trigger={
                         <Checkbox label="是否使用Sparkling Mock服务？" toggle checked={useOnlineSrv} onChange={() => setUseOnlineSrv(!useOnlineSrv)} />
                     }
-                    content={<p style={{color: "red"}}>切换本地/线上服务会移除您的本地缓存！</p>}
+                    content={<p style={{ color: "red" }}>切换本地/线上服务会移除您的本地缓存！</p>}
                     basic
                 />
             </Form.Field>
