@@ -55,7 +55,7 @@ const ExtensionSettings = () => {
     }
 
     return (
-        <Form>
+        <Form className="config-form">
             <Divider horizontal>
                 <Header as='h4'>
                     <Icon name='configure' />
@@ -65,7 +65,6 @@ const ExtensionSettings = () => {
             <Form.Field width='14'>
                 {/* <label>启用/禁用插件</label> */}
                 <Checkbox toggle label="启用/禁用插件" checked={enableState} onChange={() => setEnableState(!enableState)} />
-                <br></br>
                 <Popup
                     trigger={
                         <Checkbox label="是否使用Sparkling Mock服务？" toggle checked={useOnlineSrv} onChange={() => {
@@ -119,7 +118,21 @@ const ExtensionSettings = () => {
                 </Header>
             </Divider>
             <Form.Field>
-                <Button negative>清理本地缓存</Button>
+                <Button negative onClick={() => {
+                    // clean all mock records in localStorage
+                    let extSettingsReg = /^__extension-|__SPARKLING_(.*)/
+                    let _local = Object.keys(localStorage)
+                    for (let i in _local) {
+                        if (!extSettingsReg.test(_local[i])) {
+                            localStorage.removeItem(_local[i])
+                        }
+                    }
+                    addMessage({
+                        ok: true,
+                        header: '已完成',
+                        content: '本地缓存清理完毕！'
+                    })
+                }}>清理本地缓存</Button>
             </Form.Field>
             <Divider horizontal>
                 <Header as='h4'>
