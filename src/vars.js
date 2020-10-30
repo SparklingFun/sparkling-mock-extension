@@ -29,7 +29,7 @@ const extensionSettings = {
     },
     getEnableOnline: function () {
         let data = localStorage.getItem('__extension-enableOnline__')
-        if (!data) return false
+        if (data !== true) return false
         return true
     }
 }

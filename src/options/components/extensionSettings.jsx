@@ -2,9 +2,9 @@ import React, { useEffect, useState, useContext } from 'react'
 import { Divider, Header, Icon, Input, Button, Checkbox, Form, Popup } from 'semantic-ui-react'
 import { MessageContext } from '../ContextManager'
 
-const ExtensionSettings = () => {
+const ExtensionSettings = (props) => {
     let config = { "status": false, "path": "http://localhost:3001/mock", "param": "ajaxID" }
-
+    const onlineCheckboxLock = props.onlineCheckboxLock
     const [useOnlineSrv, setUseOnlineSrv] = useState(false)
     const [enableState, setEnableState] = useState(config.status)
     const [apiPath, setApiPath] = useState(config.path)
@@ -17,7 +17,7 @@ const ExtensionSettings = () => {
         // When plugin first load, use localStorage config
         let storageConfig = localStorage.getItem('__extension-settings__')
         let enableOnline = localStorage.getItem('__extension-enableOnline__')
-        if (enableOnline) {
+        if (enableOnline === "true") {
             setUseOnlineSrv(true)
         }
         if (storageConfig) {
@@ -67,7 +67,9 @@ const ExtensionSettings = () => {
                 <Checkbox toggle label="启用/禁用插件" checked={enableState} onChange={() => setEnableState(!enableState)} />
                 <Popup
                     trigger={
-                        <Checkbox label="是否使用Sparkling Mock服务？" toggle checked={useOnlineSrv} onChange={() => {
+                        <Checkbox label="是否使用Sparkling Mock服务？"
+                        disabled={onlineCheckboxLock}
+                        toggle checked={useOnlineSrv} onChange={() => {
                             if (initFinish) {
                                 // clean all mock records in localStorage
                                 let extSettingsReg = /^__extension-|__SPARKLING_(.*)/

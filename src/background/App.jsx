@@ -3,38 +3,38 @@ import '&/styles/reset.css'
 import 'semantic-ui-css/semantic.min.css'
 import axios from 'axios'
 
-const extensionSettings = {
-    default: { "status": false, "path": "http://localhost:3001/mock", "param": "ajaxID" },
-    getMockStatus: function () {
-        let data = localStorage.getItem('__extension-settings__')
-        if (!data) data = JSON.stringify(this.default)
-        return JSON.parse(data).status || false
-    },
-    getMockPath: function () {
-        let data = localStorage.getItem('__extension-settings__')
-        if (!data) data = JSON.stringify(this.default)
-        return JSON.parse(data).path || ''
-    },
-    getMockParam: function () {
-        let data = localStorage.getItem('__extension-settings__')
-        if (!data) data = JSON.stringify(this.default)
-        return JSON.parse(data).param || 'ajaxID'
-    },
-    getToken: function () {
-        let data = localStorage.getItem('__SPARKLING_ONLINE_CONFIG__')
-        if (!data) return ''
-        return JSON.parse(data).token || ''
-    },
-    getEnableOnline: function () {
-        let data = localStorage.getItem('__extension-enableOnline__')
-        if (!data) return false
-        return true
-    }
-}
+// const extensionSettings = {
+//     default: { "status": false, "path": "http://localhost:3001/mock", "param": "ajaxID" },
+//     getMockStatus: function () {
+//         let data = localStorage.getItem('__extension-settings__')
+//         if (!data) data = JSON.stringify(this.default)
+//         return JSON.parse(data).status || false
+//     },
+//     getMockPath: function () {
+//         let data = localStorage.getItem('__extension-settings__')
+//         if (!data) data = JSON.stringify(this.default)
+//         return JSON.parse(data).path || ''
+//     },
+//     getMockParam: function () {
+//         let data = localStorage.getItem('__extension-settings__')
+//         if (!data) data = JSON.stringify(this.default)
+//         return JSON.parse(data).param || 'ajaxID'
+//     },
+//     getToken: function () {
+//         let data = localStorage.getItem('__SPARKLING_ONLINE_CONFIG__')
+//         if (!data) return ''
+//         return JSON.parse(data).token || ''
+//     },
+//     getEnableOnline: function () {
+//         let data = localStorage.getItem('__extension-enableOnline__')
+//         if (data !== true) return false
+//         return true
+//     }
+// }
 const bgSendMessage = function (data) {
     // key:id, value: {url: "some-test-url.com", status: false, con_id: '', full_info: null, name: '', id: ''}
-    let apiPath = extensionSettings.getEnableOnline() ? _VARS_.ONLINE_SET : extensionSettings.getMockPath()
-    let token = extensionSettings.getToken()
+    let apiPath = _VARS_.extensionSettings.getEnableOnline() ? _VARS_.ONLINE_SET : _VARS_.extensionSettings.getMockPath()
+    let token = _VARS_.extensionSettings.getToken()
     axios(apiPath + '/find?id=' + data.info.id, {
         method: 'GET',
         headers: {
@@ -93,8 +93,8 @@ function App() {
     function apiDataParse(info) {
         // {"frameId":0,"initiator":"http://some-mock-url.test.com","method":"GET","parentFrameId":-1,"requestId":"7064","tabId":105,"timeStamp":1603434504445.433,"type":"xmlhttprequest","url":"http://some-mock-url.test.com/test?ajaxID=thisistestid"}
         let infoURL = new URL(info.url)
-        let param = extensionSettings.getMockParam()
-        let id = infoURL.searchParams.get(extensionSettings.getMockParam()) // √
+        let param = _VARS_.extensionSettings.getMockParam()
+        let id = infoURL.searchParams.get(_VARS_.extensionSettings.getMockParam()) // √
         let searchReg = new RegExp('\\' + param + '=' + id, 'g')
         let originURL = infoURL.href.replace(searchReg, '') // √
         let storeInfo = {
@@ -111,7 +111,7 @@ function App() {
 
 
     function xhrRedirect(info) {
-        let ajaxId = new URL(info.url).searchParams.get(extensionSettings.getMockParam()) || '';
+        let ajaxId = new URL(info.url).searchParams.get(_VARS_.extensionSettings.getMockParam()) || '';
         if (ajaxId) {
             if (!localStorage.getItem(ajaxId)) {
                 let storeInfo = apiDataParse(info)
@@ -120,7 +120,7 @@ function App() {
             let record = JSON.parse(localStorage.getItem(ajaxId));
             if (record.status === false) return;
             return {
-                redirectUrl: (extensionSettings.getEnableOnline() ? _VARS_.ONLINE_SET : extensionSettings.getMockPath()) + '?id=' + ajaxId
+                redirectUrl: (_VARS_.extensionSettings.getEnableOnline() ? _VARS_.ONLINE_SET : _VARS_.extensionSettings.getMockPath()) + '?id=' + ajaxId
             }
         }
     }
@@ -128,8 +128,8 @@ function App() {
     chrome.webRequest.onBeforeRequest.addListener(
         // callback function
         (info) => {
-            if (!extensionSettings.getMockStatus()) return;
-            if (!extensionSettings.getMockPath()) return;
+            if (!_VARS_.extensionSettings.getMockStatus()) return;
+            if (!_VARS_.extensionSettings.getMockPath()) return;
             if (info.type === "xmlhttprequest") {
                 let redirect = xhrRedirect(info)
                 return redirect
@@ -144,14 +144,14 @@ function App() {
     );
 
     chrome.webRequest.onBeforeSendHeaders.addListener(function (info) {
-        if (!extensionSettings.getMockStatus()) return;
-        if (!extensionSettings.getMockPath()) return;
+        if (!_VARS_.extensionSettings.getMockStatus()) return;
+        if (!_VARS_.extensionSettings.getMockPath()) return;
         if (!info.type === "xmlhttprequest") return;
         let ajaxId = new URL(info.url).searchParams.get('id');
         if (!ajaxId) return;
         let headers = info.requestHeaders
         // Add private token
-        headers.push({ name: "Sparkling-Client-Token", value: extensionSettings.getToken() })
+        headers.push({ name: "Sparkling-Client-Token", value: _VARS_.extensionSettings.getToken() })
         return { requestHeaders: headers }
     },
         { urls: ["<all_urls>"] },

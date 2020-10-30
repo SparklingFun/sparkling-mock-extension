@@ -12,10 +12,15 @@ import { MessageContext } from "./ContextManager"
 
 function App() {
     const [recordNum, setRecordNum] = useState(0)
+    const [oauthed, setOauth] = useState(false)
     const globalMsgRef = useRef(null)
     const addGlobalMsgHandler = (data) => {
         const globalMsg = globalMsgRef.current
         globalMsg.__addMessage(data)
+    }
+
+    const setOauthHandler = (bool) => {
+        setOauth(bool)
     }
 
     return (
@@ -41,13 +46,13 @@ function App() {
                                 <Icon name='user' />
                             登录管理
                             </Menu.Item>),
-                            pane: <Tab.Pane key='online_setting-pane'><OauthPanel /></Tab.Pane>
+                            pane: <Tab.Pane key='online_setting-pane'><OauthPanel setOauthHandler={setOauthHandler} /></Tab.Pane>
                         },
                         {
                             menuItem: (<Menu.Item key='local_setting'>
                                 <Icon name='settings' />
                             插件设置/关于
-                            </Menu.Item>), pane: <Tab.Pane key='local_setting-pane'><ExtensionSettings /></Tab.Pane>
+                            </Menu.Item>), pane: <Tab.Pane key='local_setting-pane'><ExtensionSettings onlineCheckboxLock={!oauthed} /></Tab.Pane>
                         },
                     ]
                 } className="tab-grid" />
