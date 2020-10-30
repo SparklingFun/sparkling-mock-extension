@@ -69,7 +69,7 @@ const ExtensionSettings = () => {
                 <Popup
                     trigger={
                         <Checkbox label="是否使用Sparkling Mock服务？" toggle checked={useOnlineSrv} onChange={() => {
-                            if (initFinish && useOnlineSrv === localStorage.getItem('__extension-enableOnline__')) {
+                            if (initFinish) {
                                 // clean all mock records in localStorage
                                 let extSettingsReg = /^__extension-|__SPARKLING_(.*)/
                                 let _local = Object.keys(localStorage)
