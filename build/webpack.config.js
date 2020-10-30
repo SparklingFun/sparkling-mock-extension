@@ -61,7 +61,7 @@ module.exports = {
     output: {
         filename: '[name].js',
         path: path.resolve(process.cwd(), 'dist'),
-        publicPath: '/'
+        publicPath: ''
     },
     resolve: {
         extensions: ['.sass', '.scss', '.js', '.jsx', '.css'],

@@ -37,6 +37,7 @@ const ExtensionSettings = () => {
     }, [enableState])
 
     useEffect(() => {
+        console.log(useOnlineSrv, parseInt(Math.random() * 10), initFinish)
         if (initFinish) {
             // clean all mock records in localStorage
             let extSettingsReg = /^__extension-|__SPARKLING_(.*)/
