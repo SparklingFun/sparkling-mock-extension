@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from 'react'
-import { Divider, Header, Icon, Input, Button, Checkbox, Form } from 'semantic-ui-react'
+import React, { useEffect, useState, useContext } from 'react'
+import { Divider, Header, Icon, Input, Button, Checkbox, Form, Popup } from 'semantic-ui-react'
+import { MessageContext } from '../ContextManager'
 
 const ExtensionSettings = () => {
-    let config = {"status": false, "path": "http://localhost:3001/mock", "param": "ajaxID"}
+    let config = { "status": false, "path": "http://localhost:3001/mock", "param": "ajaxID" }
 
     const [useOnlineSrv, setUseOnlineSrv] = useState(false)
     const [enableState, setEnableState] = useState(config.status)
     const [apiPath, setApiPath] = useState(config.path)
     const [customParam, setCustomParam] = useState(config.param)
+    const { addMessage } = useContext(MessageContext)
 
     useEffect(() => {
         // When plugin first load, use localStorage config
         let storageConfig = localStorage.getItem('__extension-settings__')
         let enableOnline = localStorage.getItem('__extension-enableOnline__')
-        if(enableOnline) {
+        if (enableOnline) {
             setUseOnlineSrv(true)
         }
-        if(storageConfig) {
+        if (storageConfig) {
             config = JSON.parse(storageConfig)
             setEnableState(config.status)
             setApiPath(config.path)
@@ -32,12 +34,25 @@ const ExtensionSettings = () => {
     }, [enableState])
 
     useEffect(() => {
-        if(useOnlineSrv) {
+        if (useOnlineSrv) {
             localStorage.setItem('__extension-enableOnline__', true)
         } else {
             setApiPath(config.path)
             localStorage.setItem('__extension-enableOnline__', false)
         }
+        // clean all mock records in localStorage
+        let extSettingsReg = /^__extension-|__SPARKLING_(.*)/
+        let _local = Object.keys(localStorage)
+        for (let i in _local) {
+            if (!extSettingsReg.test(_local[i])) {
+                localStorage.removeItem(_local[i])
+            }
+        }
+        addMessage({
+            ok: true,
+            header: '已完成',
+            content: '本地缓存清理完毕！'
+        })
     }, [useOnlineSrv])
 
     useEffect(() => {
@@ -61,7 +76,13 @@ const ExtensionSettings = () => {
                 {/* <label>启用/禁用插件</label> */}
                 <Checkbox toggle label="启用/禁用插件" checked={enableState} onChange={() => setEnableState(!enableState)} />
                 <br></br>
-                <Checkbox label="是否使用Sparkling Mock服务？" toggle checked={useOnlineSrv} onChange={() => setUseOnlineSrv(!useOnlineSrv)} />
+                <Popup
+                    trigger={
+                        <Checkbox label="是否使用Sparkling Mock服务？" toggle checked={useOnlineSrv} onChange={() => setUseOnlineSrv(!useOnlineSrv)} />
+                    }
+                    content={<p style={{color: red}}>切换本地/线上服务会移除您的本地缓存！</p>}
+                    basic
+                />
             </Form.Field>
             <Form.Field width='14'>
                 <label>接口API地址</label>
@@ -71,7 +92,7 @@ const ExtensionSettings = () => {
                     icon: 'save',
                     content: '保存'
                 }}
-                    value={ useOnlineSrv ? _VARS_.ONLINE_DOMAIN : apiPath} placeholder='https://' disabled={useOnlineSrv} />
+                    value={useOnlineSrv ? _VARS_.ONLINE_DOMAIN : apiPath} placeholder='https://' disabled={useOnlineSrv} />
             </Form.Field>
             <Form.Field width='8'>
                 <label>自定义参数</label>
