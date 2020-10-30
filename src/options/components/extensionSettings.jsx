@@ -80,7 +80,7 @@ const ExtensionSettings = () => {
                     trigger={
                         <Checkbox label="是否使用Sparkling Mock服务？" toggle checked={useOnlineSrv} onChange={() => setUseOnlineSrv(!useOnlineSrv)} />
                     }
-                    content={<p style={{color: red}}>切换本地/线上服务会移除您的本地缓存！</p>}
+                    content={<p style={{color: "red"}}>切换本地/线上服务会移除您的本地缓存！</p>}
                     basic
                 />
             </Form.Field>
