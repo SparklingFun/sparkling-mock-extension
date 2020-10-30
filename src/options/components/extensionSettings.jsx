@@ -37,8 +37,8 @@ const ExtensionSettings = () => {
     }, [enableState])
 
     useEffect(() => {
-        console.log(useOnlineSrv, parseInt(Math.random() * 10), initFinish)
-        if (initFinish) {
+        // console.log(useOnlineSrv, parseInt(Math.random() * 10), initFinish)
+        if (initFinish && useOnlineSrv === localStorage.getItem('__extension-enableOnline__')) {
             // clean all mock records in localStorage
             let extSettingsReg = /^__extension-|__SPARKLING_(.*)/
             let _local = Object.keys(localStorage)
