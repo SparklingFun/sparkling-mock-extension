@@ -61,7 +61,7 @@ module.exports = {
     output: {
         filename: '[name].js',
         path: path.resolve(process.cwd(), 'dist'),
-        publicPath: '/'
+        publicPath: ''
     },
     resolve: {
         extensions: ['.sass', '.scss', '.js', '.jsx', '.css'],
@@ -144,6 +144,6 @@ module.exports = {
         }),
         new webpack.DefinePlugin({
             'process.env.npm_package_version': JSON.stringify(process.env.npm_package_version)
-          })
+        })
     ]
 }

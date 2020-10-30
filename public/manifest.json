@@ -1,8 +1,8 @@
 {
-    "name": "Extension",
+    "name": "Sparkling Mock",
     "version": "0.0.1",
     "manifest_version": 2,
-    "description": "This is a description",
+    "description": "前端数据Mock插件，可使用线上sparkling.fun的服务。",
     "icons": {
         "128": "./ext-icon.png"
     },

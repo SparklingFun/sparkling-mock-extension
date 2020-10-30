@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useImperativeHandle } from 'react'
 import { Message } from 'semantic-ui-react'
+import { nanoid } from 'nanoid'
 
 export function GlobalMessage(props) {
     const [msgList, setMsgList] = useState([])
@@ -34,7 +35,8 @@ export function GlobalMessage(props) {
         }
     }, [msgList])
 
-    const msgBox = (msg) => <Message key={msg.id} className="__global-msg-item"
+    // why use `key={nanoid(4)}` which is not recommand in document? Because messages are not controlable.
+    const msgBox = (msg) => <Message key={nanoid(4)} className="__global-msg-item"
         icon={msg.ok ? 'check' : 'warning circle'}
         header={msg.header || 'Notice'}
         content={msg.content || ''}
