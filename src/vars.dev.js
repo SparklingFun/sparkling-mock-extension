@@ -2,6 +2,7 @@
 const ONLINE_SET = '__SPARKLING_ONLINE_CONFIG__';
 const PLUGIN_SET = '__SPARKLING_PLUGIN_CONFIG__';
 const ONLINE_DOMAIN = 'https://mock-public-api-dev.sparkling.workers.dev/mock';
+const ONLINE_PAGE = 'https://mock-public-api-dev.sparkling.workers.dev/';
 const ENV = 'development';
 const VERSION = process.env.npm_package_version;
 
@@ -40,5 +41,6 @@ module.exports = {
     ONLINE_DOMAIN,
     extensionSettings,
     ENV,
-    VERSION
+    VERSION,
+    ONLINE_PAGE
 }
