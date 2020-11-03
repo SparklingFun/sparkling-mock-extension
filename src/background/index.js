@@ -10,7 +10,14 @@ Sentry.init({
     /extensions\//i,
     /^chrome:\/\//i
   ],
-  release: "extension-background@" + _VARS_.VERSION
+  release: "extension-background@" + _VARS_.VERSION,
+  tracesSampler: samplingContext => {
+    if (localStorage.getItem('__SPARKLING_DO_NOT_TRACK__') === 'true') {
+      return 0;
+    } else {
+      return 1;
+    }
+  }
 });
 
 ReactDOM.render(

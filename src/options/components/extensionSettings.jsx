@@ -10,6 +10,7 @@ const ExtensionSettings = (props) => {
     const [apiPath, setApiPath] = useState(config.path)
     const [customParam, setCustomParam] = useState(config.param)
     const [initFinish, setInitFinish] = useState(false)
+    const [enableCollectErr, setEnableCollectErr] = useState(true)
 
     const { addMessage } = useContext(MessageContext)
 
@@ -19,6 +20,10 @@ const ExtensionSettings = (props) => {
         let enableOnline = localStorage.getItem('__extension-enableOnline__')
         if (enableOnline === "true") {
             setUseOnlineSrv(true)
+        }
+        let collectFlag = localStorage.getItem('__SPARKLING_DO_NOT_TRACK__')
+        if (collectFlag === "true") {
+            setEnableCollectErr(true)
         }
         if (storageConfig) {
             config = JSON.parse(storageConfig)
@@ -91,6 +96,13 @@ const ExtensionSettings = (props) => {
                     content={<p style={{ color: "red" }}>切换本地/线上服务会移除您的本地缓存！</p>}
                     basic
                 />
+                <Checkbox toggle label="允许插件收集错误信息" checked={enableCollectErr} onChange={(e, data) => {
+                    localStorage.setItem('__SPARKLING_DO_NOT_TRACK__', data.checked)
+                    setEnableCollectErr(data.checked)
+                    if(!data.checked) {
+                        window.open(_VARS_.ONLINE_PAGE+'do-not-track')
+                    }
+                }} />
             </Form.Field>
             <Form.Field width='14'>
                 <label>接口API地址</label>
