@@ -20,7 +20,7 @@ const LoginedPanel = (props) => {
             updateLocalUserInfo(localUserInfo)
             addMessage({
                 ok: true,
-                header: '授权成功',
+                header: '线上服务登录成功',
                 content: '欢迎，' + (localUserInfo.name || localUserInfo.login)
             })
         }
