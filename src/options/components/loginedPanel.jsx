@@ -18,13 +18,18 @@ const LoginedPanel = (props) => {
         const localUserInfo = JSON.parse(localStorage.getItem(_VARS_.ONLINE_SET))
         if (localUserInfo) {
             updateLocalUserInfo(localUserInfo)
+        }
+    }, [])
+
+    useEffect(() => {
+        if(localUserState) {
             addMessage({
                 ok: true,
                 header: '线上服务登录成功',
-                content: '欢迎，' + (localUserInfo.name || localUserInfo.login)
+                content: '欢迎，' + (localUserState.name || localUserState.login)
             })
         }
-    }, [])
+    }, [localUserState])
 
     return (
         <div>

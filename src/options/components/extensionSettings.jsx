@@ -153,8 +153,8 @@ const ExtensionSettings = (props) => {
                     <Icon name='info circle' />
                     关于插件
                 </Header>
-                <a href={_VARS_.ONLINE_PAGE + 'policy/term'}>使用条款与须知</a>
             </Divider>
+            <p><a href={_VARS_.ONLINE_PAGE + 'policy/term'}>使用条款与须知</a></p>
         </Form>
     )
 }
