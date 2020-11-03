@@ -1,17 +1,37 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Divider, Header, Icon, Button, Checkbox, Form } from 'semantic-ui-react'
 import { MessageContext } from '../ContextManager'
+import { axios } from 'axios'
 
 const LoginedPanel = (props) => {
     const [localUserState, updateLocalUserInfo] = useState(null)
     const { addMessage } = useContext(MessageContext)
 
-    const saveOnlineConfigHandler = () => {}
     const updateSetting = (data) => {
         let newState = JSON.parse(JSON.stringify(localUserState))
         newState.settings.enable_cache = data.value
         updateLocalUserInfo(newState)
         localStorage.setItem(_VARS_.ONLINE_SET, JSON.stringify(newState))
+    }
+
+    const saveOnlineConfigHandler = () => {
+        axios.post(_VARS_.ONLINE_DOMAIN + 'settings/save', {
+            ...localUserState.settings
+        }).then(
+            res => {
+                if(res.data.code === 1) {
+                    addMessage({
+                        ok: true,
+                        header: '提交成功',
+                        content: '用户设置已保存'
+                    })
+                } else {
+                    console.log('save error.')
+                }
+            }
+        ).catch(e => {
+            console.log(e)
+        })
     }
 
     useEffect(() => {
