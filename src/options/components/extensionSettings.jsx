@@ -97,8 +97,8 @@ const ExtensionSettings = (props) => {
                     basic
                 />
                 <Checkbox toggle label="允许插件收集错误信息" checked={enableCollectErr} onChange={(e, data) => {
-                    localStorage.setItem('__SPARKLING_DO_NOT_TRACK__', !data.checked)
-                    setEnableCollectErr(!data.checked)
+                    localStorage.setItem('__SPARKLING_DO_NOT_TRACK__', !enableCollectErr)
+                    setEnableCollectErr(!enableCollectErr)
                     if(!data.checked) {
                         window.open(_VARS_.ONLINE_PAGE+'do-not-track')
                     }
