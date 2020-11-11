@@ -101,6 +101,8 @@ const ExtensionSettings = (props) => {
                     setEnableCollectErr(!enableCollectErr)
                     if(!data.checked) {
                         window.open(_VARS_.ONLINE_PAGE+'do-not-track')
+                    } else {
+                        window.open(_VARS_.ONLINE_PAGE+'enable-track')
                     }
                 }} />
             </Form.Field>
