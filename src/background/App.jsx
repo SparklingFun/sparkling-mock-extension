@@ -120,7 +120,7 @@ function App() {
             let record = JSON.parse(localStorage.getItem(ajaxId));
             if (record.status === false) return;
             return {
-                redirectUrl: (_VARS_.extensionSettings.getEnableOnline() ? _VARS_.ONLINE_DOMAIN : _VARS_.extensionSettings.getMockPath()) + '?id=' + ajaxId
+                redirectUrl: (_VARS_.extensionSettings.getEnableOnline() ? _VARS_.ONLINE_DOMAIN : _VARS_.extensionSettings.getMockPath()) + '?id=' + ajaxId + (record.con_id ? '&con=' + record.con_id : '')
             }
         }
     }
