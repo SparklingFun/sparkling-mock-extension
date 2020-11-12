@@ -223,11 +223,11 @@ export function RecordEditModal(props) {
             resp => {
                 if(resp.data.code === 1) {
                     updateCreateLoading(false)
-                    localStorage.setItem(resp.data.id, JSON.stringify({
+                    localStorage.setItem(resp.data.data.id, JSON.stringify({
                         name: record.name,
                         status: false,
                         con_id: "",
-                        id: resp.data.id,
+                        id: resp.data.data.id,
                         full_info: []
                     }))
                     if(isCreate) {
@@ -238,7 +238,7 @@ export function RecordEditModal(props) {
                             header: '更新成功'
                         })
                     }
-                    // window.location.reload()
+                    window.location.reload()
                 }
                 if(resp.data.code === 0) {
                     updateCreateLoading(false)
