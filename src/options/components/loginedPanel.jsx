@@ -29,7 +29,7 @@ const LoginedPanel = (props) => {
 
     const updateSetting = (data) => {
         let newState = JSON.parse(JSON.stringify(localUserState))
-        newState.settings.enable_cache = data.value
+        newState.settings.enable_cache = data
         localStorage.setItem(_VARS_.ONLINE_SET, JSON.stringify(newState))
         updateLocalUserState(newState)
     }
@@ -51,7 +51,7 @@ const LoginedPanel = (props) => {
             </Divider>
             <Form>
                 <Form.Field>
-                    <Checkbox label='开启Cloudflare服务缓存' checked={localUserState && localUserState.settings.enable_cache ? true : false} onChange={(e, data) => updateSetting(data)} />
+                    <Checkbox label='开启Cloudflare服务缓存' checked={localUserState && localUserState.settings.enable_cache ? true : false} onChange={(e, data) => updateSetting(data.checked)} />
                 </Form.Field>
                 <Button icon labelPosition='left' type='submit' onClick={() => {saveOnlineConfigHandler()}}>
                     <Icon name='save' />
