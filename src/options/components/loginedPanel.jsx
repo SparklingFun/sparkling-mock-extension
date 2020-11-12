@@ -51,7 +51,7 @@ const LoginedPanel = (props) => {
             </Divider>
             <Form>
                 <Form.Field>
-                    <Checkbox label='开启Cloudflare服务缓存' defaultChecked={localUserState && localUserState.settings.enable_cache} onChange={(e, data) => updateSetting(data)} />
+                    <Checkbox label='开启Cloudflare服务缓存' checked={localUserState && localUserState.settings.enable_cache} onChange={(e, data) => updateSetting(data)} />
                 </Form.Field>
                 <Button icon labelPosition='left' type='submit' onClick={() => {saveOnlineConfigHandler()}}>
                     <Icon name='save' />
