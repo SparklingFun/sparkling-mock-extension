@@ -2,6 +2,8 @@ import Axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Popup } from 'semantic-ui-react'
 import { Modal, Button, Icon, Form } from 'semantic-ui-react'
+import { UnControlled as CodeMirror } from 'react-codemirror2'
+require('codemirror/mode/javascript/javascript')
 
 export function RecordEditModal(props) {
     const id = props.recordId
@@ -35,7 +37,17 @@ export function RecordEditModal(props) {
                     </Form.Button>
                     <Form.Input type="number" placeholder='HTTP状态码' onChange={(e, data) => {modifyCon('status', i, e, data)}} value={data.status} />
                 </Form.Group>
-                <Form.TextArea onChange={(e, data) => {modifyCon('data', i, e, data)}} value={data.data}></Form.TextArea>
+                {/* <Form.TextArea onChange={(e, data) => {modifyCon('data', i, e, data)}} value={data.data}></Form.TextArea> */}
+                <CodeMirror value={data.data} detach={true}
+                    options={{
+                      mode: {name: "javascript", json: true},
+                      theme: 'material',
+                      lineNumbers: false
+                    }}
+                    onChange={(editor, data, value) => {
+                        modifyCon('data', i, null, {value})
+                    }}>
+                </CodeMirror>
             </Form.Field>
         )
     }

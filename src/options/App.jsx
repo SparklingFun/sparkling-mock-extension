@@ -3,6 +3,8 @@ import { Helmet } from "react-helmet"
 import { Tab, Icon, Menu, Label } from "semantic-ui-react"
 import '&/styles/reset.css'
 import 'semantic-ui-css/semantic.min.css'
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/theme/material.css'
 // Components
 import MockRecordTable from './components/mockRecordTable'
 import ExtensionSettings from './components/extensionSettings'
