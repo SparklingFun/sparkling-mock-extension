@@ -25,6 +25,7 @@ export function RecordEditModal(props) {
         url: false,
         category: false
     })
+    const [formLoading, setFormLoading] = useState(true)
     const [createLoading, updateCreateLoading] = useState(false)
 
     const conditionTpl = (data, i) => {
@@ -71,6 +72,7 @@ export function RecordEditModal(props) {
                         url: data.url || false,
                         category: data.category || false
                     })
+                    setFormLoading(false)
                 }
             ).catch(e => {
                 if(e.response.status === 404) {
@@ -280,7 +282,7 @@ export function RecordEditModal(props) {
             <Modal.Header>编辑Mock数据</Modal.Header>
             <Modal.Content className="mock-record-editor">
                 <Modal.Description>
-                    <Form>
+                    <Form loading={formLoading}>
                         <Form.Field required error={!formValid.name}>
                             <label>Name</label>
                             <Form.Input placeholder='Mock Name' name="name" defaultValue={record.name} onChange={(e, data) => inputValChange('name', e, data)} />
