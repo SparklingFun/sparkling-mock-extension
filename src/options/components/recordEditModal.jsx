@@ -238,7 +238,7 @@ export function RecordEditModal(props) {
                             header: '更新成功'
                         })
                     }
-                    window.location.reload()
+                    // window.location.reload()
                 }
                 if(resp.data.code === 0) {
                     updateCreateLoading(false)
