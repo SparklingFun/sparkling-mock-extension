@@ -240,7 +240,10 @@ export function RecordEditModal(props) {
                         status: false,
                         con_id: "",
                         id: resp.data.data.id,
-                        full_info: []
+                        full_info: resp.data.data.mock_data,
+                        url: resp.data.data.url,
+                        name: resp.data.data.name,
+                        category: resp.data.data.category
                     }))
                     if(isCreate) {
                         window.prompt ? window.prompt("创建成功，记录id为：", resp.data.id) : alert("创建成功，记录id为："+resp.data.id)
