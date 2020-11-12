@@ -6,6 +6,10 @@ import { Segment, Loader } from 'semantic-ui-react'
 import { MessageContext } from '../ContextManager'
 
 const noLoginPanel = (props) => {
+    // React hooks
+    const [loading, setLoadingState] = useState(false)
+    const { addMessage } = useContext(MessageContext)
+
     // functions
     const githubBtnHandler = () => {
         const id = nanoid(10)
@@ -28,7 +32,7 @@ const noLoginPanel = (props) => {
                     addMessage({
                         ok: true,
                         header: '线上服务登录成功',
-                        content: '欢迎，' + (localUserState.name || localUserState.login)
+                        content: '欢迎，' + (data.userinfo.name || data.userinfo.login)
                     })
                     props.loginSuccess()
                 }
@@ -40,9 +44,6 @@ const noLoginPanel = (props) => {
             }
         )
     }
-    // React hooks
-    const [loading, setLoadingState] = useState(false)
-    const { addMessage } = useContext(MessageContext)
 
     return (
         <div id="no-login-panel-box">
