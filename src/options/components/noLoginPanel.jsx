@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import axios from 'axios'
 import { nanoid } from 'nanoid'
 import { GithubLoginButton } from 'react-social-login-buttons'
 import { Segment, Loader } from 'semantic-ui-react'
+import { MessageContext } from '../ContextManager'
 
 const noLoginPanel = (props) => {
     // functions
@@ -24,6 +25,11 @@ const noLoginPanel = (props) => {
                     setLoadingState(false)
                     let userinfo = data.userinfo
                     localStorage.setItem(_VARS_.ONLINE_SET, JSON.stringify(userinfo))
+                    addMessage({
+                        ok: true,
+                        header: '线上服务登录成功',
+                        content: '欢迎，' + (localUserState.name || localUserState.login)
+                    })
                     props.loginSuccess()
                 }
             },
@@ -36,6 +42,7 @@ const noLoginPanel = (props) => {
     }
     // React hooks
     const [loading, setLoadingState] = useState(false)
+    const { addMessage } = useContext(MessageContext)
 
     return (
         <div id="no-login-panel-box">

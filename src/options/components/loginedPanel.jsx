@@ -41,16 +41,6 @@ const LoginedPanel = (props) => {
         }
     }, [])
 
-    useEffect(() => {
-        if(localUserState) {
-            addMessage({
-                ok: true,
-                header: '线上服务登录成功',
-                content: '欢迎，' + (localUserState.name || localUserState.login)
-            })
-        }
-    }, [localUserState])
-
     return (
         <div>
             <Divider horizontal>
