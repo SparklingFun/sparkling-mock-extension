@@ -5,6 +5,7 @@ import '&/styles/reset.css'
 import 'semantic-ui-css/semantic.min.css'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/material.css'
+import './styles/custom.dark.css'
 // Components
 import MockRecordTable from './components/mockRecordTable'
 import ExtensionSettings from './components/extensionSettings'

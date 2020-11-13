@@ -1,0 +1,15 @@
+@media screen and (prefers-color-scheme: dark) {
+    body {background-color: #000;}
+    .ui.tabular.menu .item {color: #eee;}
+    .ui.vertical.tabular.menu .active.item {background-color: #333; color: #fff;}
+    .ui.tabular.menu .item:hover {color: #fff;}
+    .ui.segment {background-color: #222;}
+    #main .tab-grid .ui.attached {border-top: 1px solid #d4d4d5;}
+    .ui.table {background-color: #333;color: #fff;}
+    .ui.table thead th {background-color: #666; color: #fff;}
+    .ui.header {color: #fff;}
+    .ui.checkbox label, .ui.checkbox+label {color: #eee;}
+    .ui.toggle.checkbox input:checked~.box, .ui.toggle.checkbox input:checked~label {color: #fff !important;}
+    .ui.form .field>label {color: #eee;}
+    .ui.modals .ui.form .field>label {color: #333;}
+}

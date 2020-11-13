@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Divider, Header, Icon, Button, Checkbox, Form } from 'semantic-ui-react'
 import { MessageContext } from '../ContextManager'
-import { axios } from 'axios'
+import Axios from 'axios'
 
 const LoginedPanel = (props) => {
     const [localUserState, updateLocalUserState] = useState(null)
     const { addMessage } = useContext(MessageContext)
 
     const saveOnlineConfigHandler = () => {
-        axios.post(_VARS_.ONLINE_DOMAIN + 'settings/save', {
+        Axios.post(_VARS_.ONLINE_DOMAIN + 'settings/save', {
             ...localUserState.settings
         }).then(
             res => {

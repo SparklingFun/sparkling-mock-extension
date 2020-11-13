@@ -35,7 +35,8 @@ const addHtmlWebpackPlugin = (isProd) => {
         pluginsArr.push(
             new HtmlWebpackPlugin({
                 filename: `${item}.html`,
-                template: isProd ? path.resolve(process.cwd(), 'src/index.html') : path.resolve(process.cwd(), 'src/index.dev.html'),
+                // template: isProd ? path.resolve(process.cwd(), 'src/index.html') : path.resolve(process.cwd(), 'src/index.dev.html'),
+                template: path.resolve(process.cwd(), 'src/index.html'),
                 hash: true,
                 chunks: ["vendor", item],
                 inject: true,
