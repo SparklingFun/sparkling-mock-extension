@@ -22,7 +22,7 @@ const ExtensionSettings = (props) => {
             setUseOnlineSrv(true)
         }
         let collectFlag = localStorage.getItem('__SPARKLING_DO_NOT_TRACK__')
-        if (collectFlag === "true") {
+        if (collectFlag === 1) {
             setEnableCollectErr(false)
         }
         if (storageConfig) {
@@ -97,7 +97,11 @@ const ExtensionSettings = (props) => {
                     basic
                 />
                 <Checkbox toggle label="允许插件收集错误信息" checked={enableCollectErr} onChange={(e, data) => {
-                    localStorage.setItem('__SPARKLING_DO_NOT_TRACK__', !enableCollectErr)
+                    if(enableCollectErr) {
+                        localStorage.setItem('__SPARKLING_DO_NOT_TRACK__', 1)
+                    } else {
+                        localStorage.removeItem('__SPARKLING_DO_NOT_TRACK__')
+                    }
                     setEnableCollectErr(!enableCollectErr)
                     if(!data.checked) {
                         window.open(_VARS_.ONLINE_PAGE+'do-not-track')

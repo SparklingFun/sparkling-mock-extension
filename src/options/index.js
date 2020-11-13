@@ -13,7 +13,7 @@ Sentry.init({
   ],
   release: "extension-option@" + _VARS_.VERSION,
   tracesSampler: samplingContext => {
-    if (localStorage.getItem('__SPARKLING_DO_NOT_TRACK__') === 'true') {
+    if (localStorage.getItem('__SPARKLING_DO_NOT_TRACK__') === 1) {
       return 0;
     } else {
       return 1;
