@@ -25,7 +25,7 @@ export function RecordEditModal(props) {
         url: false,
         category: false
     })
-    const [formLoading, setFormLoading] = useState(true)
+    const [formLoading, setFormLoading] = useState(false)
     const [createLoading, updateCreateLoading] = useState(false)
 
     const conditionTpl = (data, i) => {
@@ -55,6 +55,7 @@ export function RecordEditModal(props) {
 
     useEffect(() => {
         if (open && !isCreate) {
+            setFormLoading(true)
             refreshHandler().then(
                 ok => {
                     let data = localStorage.getItem(id)
